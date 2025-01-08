@@ -19,7 +19,7 @@ jobs:
         run: skopeo copy docker://quay.io/fedora-ostree-desktops/xfce-atomic:41 oci:xfce-atomic
       - name: Build base building container
         run: |
-          podman run --name=builder -v ./kickstart.silverblue:/kickstart.silverblue -v ./kickstart.xfce-atomic:/kickstart.xfce-atomic -v ./silverblue:/silverblue -v ./xfce-atomic:/xfce-atomic -v ./output:/output -d quay.io/fedora/fedora:41
+          podman run --name=builder -v ./kickstart.silverblue:/kickstart.silverblue -v ./kickstart.xfce-atomic:/kickstart.xfce-atomic -v ./silverblue:/silverblue -v ./xfce-atomic:/xfce-atomic -v ./output:/output -d quay.io/fedora/fedora:41 tail -f /dev/null
           podman exec builder dnf install lorax util-linux curl -y
           podman exec builder curl -Lo base.iso https://dl.fedoraproject.org/pub/fedora/linux/releases/41/Everything/x86_64/os/images/boot.iso
       - name: Build Silverblue ISO
@@ -36,3 +36,5 @@ jobs:
         with:
           name: xfce-atomic
           path: output/xfce-atomic-41.iso
+      - name: Kill dangling containers
+        run: podman kill -a
