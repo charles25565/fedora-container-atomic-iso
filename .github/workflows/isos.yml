@@ -1,0 +1,38 @@
+name: ISOs
+
+on:
+  workflow_dispatch:
+  push:
+  schedule:
+    - cron: '0 0 1 * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare
+        run: mkdir output silverblue xfce-atomic
+      - name: Download Silverblue
+        run: skopeo copy docker://quay.io/fedora-ostree-desktops/silverblue:41 oci:silverblue
+      - name: Download XFCE Atomic
+        run: skopeo copy docker://quay.io/fedora-ostree-desktops/xfce-atomic:41 oci:xfce-atomic
+      - name: Build base building container
+        run: |
+          podman run --name=builder -v ./kickstart.silverblue:/kickstart.silverblue -v ./kickstart.xfce-atomic:/kickstart.xfce-atomic -v ./silverblue:/silverblue -v ./xfce-atomic:/xfce-atomic -v ./output:/output -d quay.io/fedora/fedora:41
+          podman exec --name=builder dnf install lorax util-linux curl -y
+          podman exec --name=builder curl -Lo base.iso https://dl.fedoraproject.org/pub/fedora/linux/releases/41/Everything/x86_64/os/images/boot.iso
+      - name: Build Silverblue ISO
+        run: podman exec mkksiso -a silverblue kickstart.silverblue base.iso output/silverblue-41.iso
+      - name: Build XFCE Atomic ISO
+        run: podman exec mkksiso -a xfce-atomic kickstart.xfce-atomic base.iso output/xfce-atomic-41.iso
+      - name: Upload Silverblue ISO
+      - uses: actions/upload-artifact@v4
+        with:
+          name: silverblue
+          path: output/silverblue-41.iso
+      - name: Upload XFCE Atomic ISO
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xfce-atomic
+          path: output/xfce-atomic-41.iso
