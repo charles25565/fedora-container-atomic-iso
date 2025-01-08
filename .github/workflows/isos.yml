@@ -20,8 +20,8 @@ jobs:
       - name: Build base building container
         run: |
           podman run --name=builder -v ./kickstart.silverblue:/kickstart.silverblue -v ./kickstart.xfce-atomic:/kickstart.xfce-atomic -v ./silverblue:/silverblue -v ./xfce-atomic:/xfce-atomic -v ./output:/output -d quay.io/fedora/fedora:41
-          podman exec --name=builder dnf install lorax util-linux curl -y
-          podman exec --name=builder curl -Lo base.iso https://dl.fedoraproject.org/pub/fedora/linux/releases/41/Everything/x86_64/os/images/boot.iso
+          podman exec builder dnf install lorax util-linux curl -y
+          podman exec builder curl -Lo base.iso https://dl.fedoraproject.org/pub/fedora/linux/releases/41/Everything/x86_64/os/images/boot.iso
       - name: Build Silverblue ISO
         run: podman exec mkksiso -a silverblue kickstart.silverblue base.iso output/silverblue-41.iso
       - name: Build XFCE Atomic ISO
