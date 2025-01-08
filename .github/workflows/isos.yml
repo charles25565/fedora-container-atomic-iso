@@ -27,12 +27,12 @@ jobs:
       - name: Build XFCE Atomic ISO
         run: podman exec mkksiso -a xfce-atomic kickstart.xfce-atomic base.iso output/xfce-atomic-41.iso
       - name: Upload Silverblue ISO
-      - uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4
         with:
           name: silverblue
           path: output/silverblue-41.iso
       - name: Upload XFCE Atomic ISO
-      - uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4
         with:
           name: xfce-atomic
           path: output/xfce-atomic-41.iso
