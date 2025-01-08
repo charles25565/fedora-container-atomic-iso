@@ -23,9 +23,9 @@ jobs:
           podman exec builder dnf install lorax util-linux curl -y
           podman exec builder curl -Lo base.iso https://dl.fedoraproject.org/pub/fedora/linux/releases/41/Everything/x86_64/os/images/boot.iso
       - name: Build Silverblue ISO
-        run: podman exec mkksiso -a silverblue kickstart.silverblue base.iso output/silverblue-41.iso
+        run: podman exec builder mkksiso -a silverblue kickstart.silverblue base.iso output/silverblue-41.iso
       - name: Build XFCE Atomic ISO
-        run: podman exec mkksiso -a xfce-atomic kickstart.xfce-atomic base.iso output/xfce-atomic-41.iso
+        run: podman exec builder mkksiso -a xfce-atomic kickstart.xfce-atomic base.iso output/xfce-atomic-41.iso
       - name: Upload Silverblue ISO
         uses: actions/upload-artifact@v4
         with:
