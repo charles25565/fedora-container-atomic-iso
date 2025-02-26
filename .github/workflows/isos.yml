@@ -14,7 +14,7 @@ jobs:
       - name: Prepare
         run: mkdir output silverblue xfce-atomic
       - name: Download Silverblue
-        run: skopeo copy docker://quay.io/fedora-ostree-desktops/silverblue:41 oci:silverblue
+        run: skopeo copy docker://quay.io/fedora/fedora-silverblue:41 oci:silverblue
       - name: Download XFCE Atomic
         run: skopeo copy docker://quay.io/fedora-ostree-desktops/xfce-atomic:41 oci:xfce-atomic
       - name: Build base building container
