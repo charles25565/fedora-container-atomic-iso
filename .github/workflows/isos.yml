@@ -9,23 +9,23 @@ on:
 jobs:
   build:
     runs-on: ubuntu-24.04
+    container: quay.io/fedora/fedora:41
     steps:
       - uses: actions/checkout@v4
-      - name: Prepare
+      - name: Install dependencies
+        run: dnf install lorax util-linux curl skopeo -y
+      - name: Make folders
         run: mkdir output silverblue xfce-atomic
-      - name: Download Silverblue
+      - name: Download Fedora ISO
+        run: curl -Lso base.iso https://dl.fedoraproject.org/pub/fedora/linux/releases/41/Everything/x86_64/os/images/boot.iso
+      - name: Download Silverblue container
         run: skopeo copy docker://quay.io/fedora/fedora-silverblue:41 oci:silverblue
-      - name: Download XFCE Atomic
+      - name: Download XFCE Atomic container
         run: skopeo copy docker://quay.io/fedora-ostree-desktops/xfce-atomic:41 oci:xfce-atomic
-      - name: Build base building container
-        run: |
-          sudo podman run --name=builder --privileged -v ./kickstart.silverblue:/kickstart.silverblue -v ./kickstart.xfce-atomic:/kickstart.xfce-atomic -v ./silverblue:/silverblue -v ./xfce-atomic:/xfce-atomic -v ./output:/output -d quay.io/fedora/fedora:41 tail -f /dev/null
-          sudo podman exec builder dnf install lorax util-linux curl -y
-          sudo podman exec builder curl -Lo base.iso https://dl.fedoraproject.org/pub/fedora/linux/releases/41/Everything/x86_64/os/images/boot.iso
       - name: Build Silverblue ISO
-        run: sudo podman exec builder mkksiso -a silverblue kickstart.silverblue base.iso output/silverblue-41.iso
+        run: mkksiso -a silverblue kickstart.silverblue base.iso output/silverblue-41.iso
       - name: Build XFCE Atomic ISO
-        run: sudo podman exec builder mkksiso -a xfce-atomic kickstart.xfce-atomic base.iso output/xfce-atomic-41.iso
+        run: mkksiso -a xfce-atomic kickstart.xfce-atomic base.iso output/xfce-atomic-41.iso
       - name: Upload Silverblue ISO
         uses: actions/upload-artifact@v4
         with:
@@ -36,5 +36,3 @@ jobs:
         with:
           name: xfce-atomic
           path: output/xfce-atomic-41.iso
-      - name: Kill dangling containers
-        run: sudo podman kill -a
