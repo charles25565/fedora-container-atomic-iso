@@ -1,6 +1,6 @@
 # fedora-container-atomic-iso
 
-Simple project that makes monthly ISOs of [this for Silverblue](https://quay.io/fedora/fedora-silverblue) and[this for XFCE Atomic](https://gitlab.com/fedora/ostree/ci-test). They are offline media.
+Simple project that makes monthly ISOs of [this for Silverblue](https://quay.io/fedora/fedora-silverblue) and [this for XFCE Atomic](https://gitlab.com/fedora/ostree/ci-test). They are offline media.
 
 ## Download
 
