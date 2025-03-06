@@ -1,0 +1,5 @@
+ostreecontainer --url=/run/install/repo/kinoite --transport=oci --no-signature-verification
+
+%post --erroronfail
+bootc switch --mutate-in-place --transport registry quay.io/fedora/fedora-kinoite:41
+%end

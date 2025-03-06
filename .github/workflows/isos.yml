@@ -22,10 +22,14 @@ jobs:
         run: curl -Lso base.iso https://dl.fedoraproject.org/pub/fedora/linux/releases/41/Everything/x86_64/os/images/boot.iso
       - name: Download Silverblue container
         run: skopeo copy docker://quay.io/fedora/fedora-silverblue:41 oci:silverblue
+      - name: Download Kinoite container
+        run: skopeo copy docker://quay.io/fedora/fedora-kinoite:41 oci:kinoite
       - name: Download XFCE Atomic container
         run: skopeo copy docker://quay.io/fedora-ostree-desktops/xfce-atomic:41 oci:xfce-atomic
       - name: Build Silverblue ISO
         run: mkksiso -a silverblue kickstart.silverblue base.iso output/silverblue-41.iso
+      - name: Build Kinoite ISO
+        run: mkksiso -a kinoite kickstart.kinoite base.iso output/kinoite-41.iso
       - name: Build XFCE Atomic ISO
         run: mkksiso -a xfce-atomic kickstart.xfce-atomic base.iso output/xfce-atomic-41.iso
       - name: Upload Silverblue ISO
@@ -33,6 +37,11 @@ jobs:
         with:
           name: silverblue
           path: output/silverblue-41.iso
+      - name: Upload Kinoite ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: kinoite
+          path: output/kinoite-41.iso
       - name: Upload XFCE Atomic ISO
         uses: actions/upload-artifact@v4
         with:
