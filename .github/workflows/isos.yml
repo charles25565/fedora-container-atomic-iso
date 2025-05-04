@@ -30,7 +30,7 @@ jobs:
       - name: Download Fedora ISO
         run: curl --retry=3 -Lso base.iso https://dl.fedoraproject.org/pub/fedora/linux/releases/42/Everything/x86_64/os/images/boot.iso
       - name: Download container
-        run: skopeo copy ${{matrix.images.container_url}:42 oci:container
+        run: skopeo copy ${{matrix.images.container_url}}:42 oci:container
       - name: Build ISO
         run: mkksiso -a container kickstart.${{matrix.images.type}} base.iso output/image-42.iso
       - name: Upload ISO
