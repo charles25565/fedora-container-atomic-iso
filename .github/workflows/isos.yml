@@ -22,13 +22,13 @@ jobs:
           - type: xfce-atomic
             container_url: quay.io/fedora-ostree-desktops/xfce-atomic
     steps:
-      - uses: actions/checkout@v4
       - name: Install dependencies
-        run: dnf install lorax util-linux curl skopeo -y
+        run: dnf install git lorax util-linux curl skopeo -y
+      - uses: actions/checkout@v4
       - name: Make output folder
         run: mkdir output
       - name: Download Fedora ISO
-        run: curl --retry=3 -Lso base.iso https://dl.fedoraproject.org/pub/fedora/linux/releases/42/Everything/x86_64/os/images/boot.iso
+        run: curl -Lso base.iso https://dl.fedoraproject.org/pub/fedora/linux/releases/42/Everything/x86_64/os/images/boot.iso
       - name: Download container
         run: skopeo copy ${{matrix.images.container_url}}:42 oci:container
       - name: Build ISO
