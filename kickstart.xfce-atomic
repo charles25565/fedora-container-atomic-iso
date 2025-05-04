@@ -1,5 +1,5 @@
 ostreecontainer --url=/run/install/repo/xfce-atomic --transport=oci --no-signature-verification
 
 %post --erroronfail
-bootc switch --mutate-in-place --transport registry quay.io/fedora-ostree-desktops/xfce-atomic:41
+bootc switch --mutate-in-place --transport registry quay.io/fedora-ostree-desktops/xfce-atomic:42
 %end

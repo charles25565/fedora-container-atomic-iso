@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     container: 
-      image: quay.io/fedora/fedora:41
+      image: quay.io/fedora/fedora:42
       options: --privileged
     steps:
       - uses: actions/checkout@v4
@@ -19,31 +19,31 @@ jobs:
       - name: Make folders
         run: mkdir output silverblue xfce-atomic
       - name: Download Fedora ISO
-        run: curl -Lso base.iso https://dl.fedoraproject.org/pub/fedora/linux/releases/41/Everything/x86_64/os/images/boot.iso
+        run: curl -Lso base.iso https://dl.fedoraproject.org/pub/fedora/linux/releases/42/Everything/x86_64/os/images/boot.iso
       - name: Download Silverblue container
-        run: skopeo copy docker://quay.io/fedora/fedora-silverblue:41 oci:silverblue
+        run: skopeo copy docker://quay.io/fedora/fedora-silverblue:42 oci:silverblue
       - name: Download Kinoite container
-        run: skopeo copy docker://quay.io/fedora/fedora-kinoite:41 oci:kinoite
+        run: skopeo copy docker://quay.io/fedora/fedora-kinoite:42 oci:kinoite
       - name: Download XFCE Atomic container
-        run: skopeo copy docker://quay.io/fedora-ostree-desktops/xfce-atomic:41 oci:xfce-atomic
+        run: skopeo copy docker://quay.io/fedora-ostree-desktops/xfce-atomic:42 oci:xfce-atomic
       - name: Build Silverblue ISO
-        run: mkksiso -a silverblue kickstart.silverblue base.iso output/silverblue-41.iso
+        run: mkksiso -a silverblue kickstart.silverblue base.iso output/silverblue-42.iso
       - name: Build Kinoite ISO
-        run: mkksiso -a kinoite kickstart.kinoite base.iso output/kinoite-41.iso
+        run: mkksiso -a kinoite kickstart.kinoite base.iso output/kinoite-42.iso
       - name: Build XFCE Atomic ISO
-        run: mkksiso -a xfce-atomic kickstart.xfce-atomic base.iso output/xfce-atomic-41.iso
+        run: mkksiso -a xfce-atomic kickstart.xfce-atomic base.iso output/xfce-atomic-42.iso
       - name: Upload Silverblue ISO
         uses: actions/upload-artifact@v4
         with:
           name: silverblue
-          path: output/silverblue-41.iso
+          path: output/silverblue-42.iso
       - name: Upload Kinoite ISO
         uses: actions/upload-artifact@v4
         with:
           name: kinoite
-          path: output/kinoite-41.iso
+          path: output/kinoite-42.iso
       - name: Upload XFCE Atomic ISO
         uses: actions/upload-artifact@v4
         with:
           name: xfce-atomic
-          path: output/xfce-atomic-41.iso
+          path: output/xfce-atomic-42.iso
