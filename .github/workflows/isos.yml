@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     container: 
-      image: ghcr.io/almalinux/almalinux:10
+      image: quay.io/centos/centos:stream10
       options: --privileged
     strategy:
       matrix:
@@ -23,7 +23,7 @@ jobs:
             container_url: quay.io/fedora-ostree-desktops/xfce-atomic
     steps:
       - name: Install dependencies
-        run: dnf install git lorax util-linux curl skopeo -y
+        run: dnf install git lorax util-linux curl skopeo -y --allowerasing
       - uses: actions/checkout@v4
       - name: Make output folder
         run: mkdir output
