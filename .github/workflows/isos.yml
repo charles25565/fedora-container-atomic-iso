@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     container: 
-      image: quay.io/centos/centos:stream10
+      image: quay.io/fedora/fedora:42
       options: --privileged
     strategy:
       matrix:
