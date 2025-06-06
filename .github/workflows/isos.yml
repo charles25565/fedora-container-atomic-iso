@@ -31,8 +31,10 @@ jobs:
         run: curl -Lso base.iso https://dl.fedoraproject.org/pub/fedora/linux/releases/42/Everything/x86_64/os/images/boot.iso
       - name: Download container
         run: skopeo copy docker://${{matrix.images.container_url}}:42 oci:container
+      - name: Rename kickstart
+        run: mv kickstart.${{matrix.images.type}} ks.cfg
       - name: Build ISO
-        run: mkksiso -a container kickstart.${{matrix.images.type}} base.iso output/image-42.iso
+        run: mkksiso -a container ks.cfg base.iso output/image-42.iso
       - name: Upload ISO
         uses: actions/upload-artifact@v4
         with:
