@@ -19,6 +19,8 @@ jobs:
             container_url: quay.io/fedora/fedora-silverblue
           - type: kinoite
             container_url: quay.io/fedora/fedora-kinoite
+          - type: sway-atomic
+            container_url: quay.io/fedora/fedora-sway-atomic
           - type: xfce-atomic
             container_url: quay.io/fedora-ostree-desktops/xfce-atomic
     steps:
@@ -34,9 +36,9 @@ jobs:
       - name: Rename kickstart
         run: mv kickstart.${{matrix.images.type}} ks.cfg
       - name: Build ISO
-        run: mkksiso -a container ks.cfg base.iso output/image-42.iso
+        run: mkksiso -a container ks.cfg base.iso output/${{matrix.images.type}}-42.iso
       - name: Upload ISO
         uses: actions/upload-artifact@v4
         with:
           name: ${{matrix.images.type}}
-          path: output/image-42.iso
+          path: output/${{matrix.images.type}}-42.iso
