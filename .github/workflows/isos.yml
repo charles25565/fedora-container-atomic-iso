@@ -23,6 +23,8 @@ jobs:
             container_url: quay.io/fedora/fedora-sway-atomic
           - type: xfce-atomic
             container_url: quay.io/fedora-ostree-desktops/xfce-atomic
+          - type: secureblue
+            container_url: ghcr.io/secureblue/silverblue-main-hardened
     steps:
       - name: Install dependencies
         run: dnf install git lorax util-linux curl skopeo -y --allowerasing
